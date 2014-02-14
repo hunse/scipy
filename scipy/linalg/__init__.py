@@ -161,6 +161,7 @@ from .basic import *
 from .decomp import *
 from .decomp_lu import *
 from .decomp_cholesky import *
+from .decomp_ldl import *
 from .decomp_qr import *
 from ._decomp_qz import *
 from .decomp_svd import *

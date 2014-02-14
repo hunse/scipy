@@ -1180,6 +1180,61 @@ interface
    end subroutine <prefix>potri
 
 
+   subroutine <prefix2>sytrf(n,a,ipiv,work,lwork,lower,info,overwrite_a)
+
+     ! c,ipiv,info = sytrf(a,lwork=n,lower=0,overwrite_a=0)
+     ! Compute LDL decomposition of symmetric matrix, defined:
+     ! A = U * D * U^T
+     ! A = L * D * L^T
+     ! C is the factorization matrix of the corresponding LDL decomposition.
+     ! IPIV is the permutation vector of the corresponding LDL decomposition.
+
+     callstatement (*f2py_func)((lower?"L":"U"),&n,a,&n,ipiv,work,&lwork,&info)
+     callprotoargument char*,int*,<ctype2>*,int*,int*,<ctype2>*,int*,int*
+
+     integer optional,intent(in),check(lower==0||lower==1) :: lower = 0
+     ! integer optional,intent(in),check(clean==0||clean==1) :: clean = 1
+
+     integer depend(a),intent(hide):: n = shape(a,0)
+     <ftype2> dimension(n,n),intent(in,out,copy,out=c) :: a
+     check(shape(a,0)==shape(a,1)) :: a
+
+     integer dimension(n),intent(out) :: ipiv
+
+     integer optional,intent(in),depend(n) :: lwork=n
+     <ftype2> dimension(lwork),intent(hide,cache),depend(lwork) :: work
+
+     integer intent(out) :: info
+
+   end subroutine <prefix2>sytrf
+
+   subroutine <prefix>sytrs(n,nrhs,c,ipiv,b,info,lower)
+
+     ! x,info = sytrs(c,ipiv,b,lower=0,overwrite_b=0)
+     ! Solve A * X = B.
+     ! A is symmetric, defined:
+     ! A = U * D * U^T, if lower = 0
+     ! A = L * D * L^T, if lower = 1
+     ! C is the factorization matrix of the corresponding LDL decomposition.
+     ! IPIV is the permutation vector of the corresponding LDL decomposition.
+
+     callstatement (*f2py_func)((lower?"L":"U"),&n,&nrhs,c,&n,ipiv,b,&n,&info)
+     callprotoargument char*,int*,int*,<ctype>*,int*,int*,<ctype>*,int*,int*
+
+     integer optional,intent(in),check(lower==0||lower==1) :: lower = 0
+
+     integer depend(c),intent(hide):: n = shape(c,0)
+     integer depend(b),intent(hide):: nrhs = shape(b,1)
+     <ftype> dimension(n,n),intent(in) :: c
+     check(shape(c,0)==shape(c,1)) :: c
+     integer dimension(n),intent(in) :: ipiv
+     <ftype> dimension(n,nrhs),intent(in,out,copy,out=x),depend(n):: b
+     check(shape(c,0)==shape(b,0)) :: b
+     integer intent(out) :: info
+
+   end subroutine <prefix>sytrs
+
+
    subroutine <prefix>lauum(n,c,info,lower)
    
      ! a,info = lauum(c,lower=0,overwrite_c=0)
