@@ -27,26 +27,26 @@ class TestLDL(TestCase):
         x_lu = lu_solve(lu_factor(a), b)
         assert_array_almost_equal(x_ldl, x_lu)
 
-    # def test_speed_versus_cho(self):
-    #     from time import time
+    def test_speed_versus_cho(self):
+        from time import time
 
-    #     n, nrhs = 5000, 1
-    #     sigma = 1
-    #     a = normal((n, n))
-    #     b = normal((n, nrhs))
-    #     a = dot(a.T, a)
-    #     fill_diagonal(a, a.diagonal() + n * sigma**2)
+        n, nrhs = 5000, 1
+        sigma = 1
+        a = normal((n, n))
+        b = normal((n, nrhs))
+        a = dot(a.T, a)
+        fill_diagonal(a, a.diagonal() + n * sigma**2)
 
-    #     t_cho = time()
-    #     f_cho = cho_factor(a)
-    #     t_cho = time() - t_cho
-    #     x_cho = cho_solve(f_cho, b)
+        t_cho = time()
+        f_cho = cho_factor(a)
+        t_cho = time() - t_cho
+        x_cho = cho_solve(f_cho, b)
 
-    #     t_ldl = time()
-    #     f_ldl = ldl_factor(a)
-    #     t_ldl = time() - t_ldl
-    #     x_ldl = ldl_solve(f_ldl, b)
+        t_ldl = time()
+        f_ldl = ldl_factor(a)
+        t_ldl = time() - t_ldl
+        x_ldl = ldl_solve(f_ldl, b)
 
-    #     print("TIMES:", t_cho, t_ldl)
+        print("TIMES:", t_cho, t_ldl)
 
-    #     assert_array_almost_equal(x_cho, x_ldl)
+        assert_array_almost_equal(x_cho, x_ldl)

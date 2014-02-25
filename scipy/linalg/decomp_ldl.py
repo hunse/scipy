@@ -25,7 +25,9 @@ def ldl_factor(a, lower=False, overwrite_a=False, check_finite=True):
 
     overwrite_a = overwrite_a or _datacopied(a1, a)
     sytrf, = get_lapack_funcs(('sytrf',), (a1,))
-    c, ipiv, info = sytrf(a1, lower=lower, overwrite_a=overwrite_a)
+    lwork = 5 * a1.shape[0] ** 2
+    c, ipiv, info = sytrf(a1, lwork=lwork,
+                          lower=lower, overwrite_a=overwrite_a)
     if info > 0:
         raise LinAlgError("%d-th leading minor not positive definite" % info)
     if info < 0:

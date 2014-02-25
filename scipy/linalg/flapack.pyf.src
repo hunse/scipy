@@ -1134,17 +1134,17 @@ interface
      <ftype2c> dimension(n,n),intent(in,out,copy,out=c) :: a
      check(shape(a,0)==shape(a,1)) :: a
      integer intent(out) :: info
-     
+
    end subroutine <prefix2c>potrf
 
    subroutine <prefix>potrs(n,nrhs,c,b,info,lower)
 
-   ! x,info = potrs(c,b,lower=0=1,overwrite_b=0)
-   ! Solve A * X = B.
-   ! A is symmetric positive defined
-   ! A = U^T * U, C = U if lower = 0
-   ! A = L * L^T, C = L if lower = 1
-   ! C is triangular matrix of the corresponding Cholesky decomposition.
+     ! x,info = potrs(c,b,lower=0=1,overwrite_b=0)
+     ! Solve A * X = B.
+     ! A is symmetric positive defined
+     ! A = U^T * U, C = U if lower = 0
+     ! A = L * L^T, C = L if lower = 1
+     ! C is triangular matrix of the corresponding Cholesky decomposition.
 
      callstatement (*f2py_func)((lower?"L":"U"),&n,&nrhs,c,&n,b,&n,&info)
      callprotoargument char*,int*,int*,<ctype>*,int*,<ctype>*,int*,int*
@@ -1184,8 +1184,8 @@ interface
 
      ! c,ipiv,info = sytrf(a,lwork=n,lower=0,overwrite_a=0)
      ! Compute LDL decomposition of symmetric matrix, defined:
-     ! A = U * D * U^T
-     ! A = L * D * L^T
+     ! A = U * D * U^T, if lower = 0
+     ! A = L * D * L^T, if lower = 1
      ! C is the factorization matrix of the corresponding LDL decomposition.
      ! IPIV is the permutation vector of the corresponding LDL decomposition.
 
